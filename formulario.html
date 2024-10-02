@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario Dinámico</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+        h2 {
+            color: #333;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .section h3 {
+            margin-top: 0;
+            color: #0066cc;
+        }
+        .input-group {
+            margin-bottom: 10px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .btn {
+            padding: 10px 20px;
+            background-color: #0066cc;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #004d99;
+        }
+        .dynamic-section {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .remove-btn {
+            background-color: red;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Formulario Dinámico de Perfil</h2>
+
+        <form action="procesar_formulario.php" method="POST">
+
+            <!-- Sección de Experiencia Laboral -->
+            <div class="section" id="experiencia-laboral-section">
+                <h3>Experiencia Laboral</h3>
+                <div id="experiencia-container"></div>
+                <button type="button" class="btn" onclick="agregarExperiencia()">Agregar Experiencia</button>
+            </div>
+
+            <!-- Sección de Formación -->
+            <div class="section" id="formacion-section">
+                <h3>Formación</h3>
+                <div id="formacion-container"></div>
+                <button type="button" class="btn" onclick="agregarFormacion()">Agregar Formación</button>
+            </div>
+
+            <!-- Sección de Idiomas -->
+            <div class="section" id="idiomas-section">
+                <h3>Idiomas</h3>
+                <div id="idiomas-container"></div>
+                <button type="button" class="btn" onclick="agregarIdioma()">Agregar Idioma</button>
+            </div>
+
+            <!-- Sección de Aptitudes -->
+            <div class="section" id="aptitudes-section">
+                <h3>Aptitudes</h3>
+                <div id="aptitudes-container"></div>
+                <button type="button" class="btn" onclick="agregarAptitud()">Agregar Aptitud</button>
+            </div>
+
+            <input type="submit" class="btn" value="Enviar">
+        </form>
+    </div>
+
+    <script>
+        let expCount = 0;
+        let formCount = 0;
+        let idiomCount = 0;
+        let aptCount = 0;
+
+        function agregarExperiencia() {
+            expCount++;
+            const experienciaContainer = document.getElementById("experiencia-container");
+            const nuevaExperiencia = `
+                <div class="dynamic-section" id="experiencia_${expCount}">
+                    <div class="input-group">
+                        <label for="empresa_${expCount}">Empresa</label>
+                        <input type="text" name="empresa_${expCount}" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="puesto_${expCount}">Puesto</label>
+                        <input type="text" name="puesto_${expCount}" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="fecha_inicio_${expCount}">Fecha Inicio</label>
+                        <input type="date" name="fecha_inicio_${expCount}" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="fecha_fin_${expCount}">Fecha Fin</label>
+                        <input type="date" name="fecha_fin_${expCount}">
+                    </div>
+                    <button type="button" class="remove-btn" onclick="removerSeccion('experiencia_${expCount}')">Eliminar</button>
+                </div>
+            `;
+            experienciaContainer.insertAdjacentHTML('beforeend', nuevaExperiencia);
+        }
+
+        function agregarFormacion() {
+            formCount++;
+            const formacionContainer = document.getElementById("formacion-container");
+            const nuevaFormacion = `
+                <div class="dynamic-section" id="formacion_${formCount}">
+                    <div class="input-group">
+                        <label for="institucion_${formCount}">Institución</label>
+                        <input type="text" name="institucion_${formCount}" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="titulo_${formCount}">Título</label>
+                        <input type="text" name="titulo_${formCount}" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="formacion_inicio_${formCount}">Fecha Inicio</label>
+                        <input type="date" name="formacion_inicio_${formCount}" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="formacion_fin_${formCount}">Fecha Fin</label>
+                        <input type="date" name="formacion_fin_${formCount}">
+                    </div>
+                    <button type="button" class="remove-btn" onclick="removerSeccion('formacion_${formCount}')">Eliminar</button>
+                </div>
+            `;
+            formacionContainer.insertAdjacentHTML('beforeend', nuevaFormacion);
+        }
+
+        function agregarIdioma() {
+            idiomCount++;
+            const idiomasContainer = document.getElementById("idiomas-container");
+            const nuevoIdioma = `
+                <div class="dynamic-section" id="idioma_${idiomCount}">
+                    <div class="input-group">
+                        <label for="idioma_${idiomCount}">Idioma</label>
+                        <input type="text" name="idioma_${idiomCount}" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="nivel_${idiomCount}">Nivel</label>
+                        <select name="nivel_${idiomCount}" required>
+                            <option value="Básico">Básico</option>
+                            <option value="Intermedio">Intermedio</option>
+                            <option value="Avanzado">Avanzado</option>
+                            <option value="Nativo">Nativo</option>
+                        </select>
+                    </div>
+                    <button type="button" class="remove-btn" onclick="removerSeccion('idioma_${idiomCount}')">Eliminar</button>
+                </div>
+            `;
+            idiomasContainer.insertAdjacentHTML('beforeend', nuevoIdioma);
+        }
+
+        function agregarAptitud() {
+            aptCount++;
+            const aptitudesContainer = document.getElementById("aptitudes-container");
+            const nuevaAptitud = `
+                <div class="dynamic-section" id="aptitud_${aptCount}">
+                    <div class="input-group">
+                        <label for="aptitud_${aptCount}">Aptitud</label>
+                        <input type="text" name="aptitud_${aptCount}" required>
+                    </div>
+                    <button type="button" class="remove-btn" onclick="removerSeccion('aptitud_${aptCount}')">Eliminar</button>
+                </div>
+            `;
+            aptitudesContainer.insertAdjacentHTML('beforeend', nuevaAptitud);
+        }
+
+        function removerSeccion(id) {
+            const section = document.getElementById(id);
+            section.remove();
+        }
+    </script>
+</body>
+</html>
